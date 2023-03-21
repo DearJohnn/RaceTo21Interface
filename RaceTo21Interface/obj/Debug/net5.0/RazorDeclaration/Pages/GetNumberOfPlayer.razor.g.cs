@@ -90,6 +90,61 @@ using RaceTo21Interface.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 64 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\GetNumberOfPlayer.razor"
+       
+    private string DisplayAlart = "";
+    int players;
+    public static string[] names;
+
+    private void UpdateNumberOfPlayer(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int result) == false
+                || result < 2 || result > 8)
+        {
+            //DisplayValue = e.Value.ToString();
+            DisplayAlart = "Invalid number of players.";
+        }
+        else
+        {
+            DisplayAlart = "";
+            players = result;
+        }
+
+    }
+
+
+    private void SetNumberOfPlayer()
+    {
+        if(players > 1 && players < 9)
+        {
+            DisplayAlart = "";
+            CardTable.numberOfPlayers = players;
+            Game.DoNextTask();
+            names = new string[players];
+        }
+        else
+        {
+            DisplayAlart = "Please enter the number of players.";
+        }
+
+    }
+
+    private void SetNameOfPlayer()
+    {
+
+            for (var i = 0; i < Game.numberOfPlayers; i++)
+            {
+                Game.AddPlayer(names[i]);
+            }
+            Game.DoNextTask();
+            NavigationManager.NavigateTo("/Bet");
+
+    }
+
+#line default
+#line hidden
+#nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }
 }

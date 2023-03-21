@@ -6,7 +6,7 @@ namespace RaceTo21Interface
     public class Game
     {
         public static int numberOfPlayers;
-        static List<Player> players = new List<Player>();
+        public static List<Player> players = new List<Player>();
         static CardTable cardTable;
         static Deck deck = new Deck();
         static int currentPlayer = 0;
@@ -46,18 +46,18 @@ namespace RaceTo21Interface
             }
             else if (nextTask == PlayTask.GetNames)
             {
-                for (var count = 1; count <= numberOfPlayers; count++)
+                /*for (var count = 1; count <= numberOfPlayers; count++)
                 {
                     var name = cardTable.GetPlayerName(count);
                     AddPlayer(name); // NOTE: player list will start from 0 index even though we use 1 for our count here to make the player numbering more human-friendly
-                }
-                nextTask = PlayTask.IntroducePlayers;
+                }*/
+                nextTask = PlayTask.Bet;
             }
-            else if (nextTask == PlayTask.IntroducePlayers)
+            /*else if (nextTask == PlayTask.IntroducePlayers)
             {
                 cardTable.ShowPlayers(players);
                 nextTask = PlayTask.Bet;
-            }
+            }*/
             else if(nextTask == PlayTask.Bet)
             { 
                 // Players bet in this task one by one

@@ -1,0 +1,48 @@
+﻿@page "/Bet"
+    <style>
+        .container {
+            padding-top: 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <div class="container">
+        <h2 class="text-center mt-4">How many players?</h2>
+        @foreach (Player player in Game.players)
+        {
+
+            <div class="row mt-2">
+                <div class="col-sm-4">
+                    <label for="@(player.name)">Player @(player.name)</label>
+                </div>
+                <div class="col-sm-4">
+                    <label for="@(player.name)">Bet: @(currentValue)</label>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-sm-4">
+                    <input type="range" step="1" min="1" max="@(player.chip)" value="50"
+                           @onchange="UpdateValue" />
+                </div>
+                   
+                    <div class="col-sm-2">
+                        <label for="@(player.name)">Bet: @(currentValue)</label>
+                    </div>
+            </div>
+         }
+            </div>
+@inject NavigationManager NavigationManager
+
+
+@code {
+
+    string currentValue = "";
+
+    private void UpdateValue(ChangeEventArgs e)
+    {
+        currentValue = e.Value.ToString();
+    }
+}

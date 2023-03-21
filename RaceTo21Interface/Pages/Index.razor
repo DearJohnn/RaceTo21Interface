@@ -1,58 +1,36 @@
 ﻿
 @page "/"
+<style>
+    .container {
+        padding-top: 25%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
 <div class="container">
-    <div class="row mt-2">
-        <div class="col-sm-6">
-            Enter text:
-        </div>
-        <div class="col-sm-6">
-            <input type="text" placeholder="Enter text"
-                   @onchange="UpdateNumberOfPlayer" />
-        </div>
-        <div class="row mt-5">
-            <button type="button" class="btn btn-primary"
-                    @onclick="SetNumberOfPlayer">
-                Next
-            </button>
-        </div>
-    </div>
-    <div>
-
-    </div>
-    <div class="row mt-5">
-        <h2>
-            <strong>@DisplayAlart</strong>
-        </h2>
-    </div>
+    <h1 class="text-center" style="text-align:center">Race To 21</h1>
+    <button button type="button" class="btn btn-primary" 
+            @onclick="() => { SetUpGame(); SetNumberOfPlayer(); }">
+        START
+    </button>
 </div>
 
 @inject NavigationManager NavigationManager
 
 @code
 {
-    private string DisplayAlart = "";
-    int players;
+    public static CardTable cardTable = new CardTable();
 
-    private void UpdateNumberOfPlayer(ChangeEventArgs e)
+    public static void SetUpGame()
     {
-        if (int.TryParse(e.Value.ToString(), out int result) == false
-                || result < 2 || result > 8)
-        {
-            //DisplayValue = e.Value.ToString();
-            DisplayAlart = "Invalid number of players.";
-        }
-        else
-        {
-            DisplayAlart = "";
-            players = result;
-        }
-
+        Game game = new Game(cardTable);
+        Game.players = new List<Player>();
     }
 
     void SetNumberOfPlayer()
     {
-        CardTable.numberOfPlayers = players;
         NavigationManager.NavigateTo("/GetNumberOfPlayer");
-        Game.DoNextTask();
     }
 }

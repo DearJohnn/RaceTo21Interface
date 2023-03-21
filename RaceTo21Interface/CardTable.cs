@@ -49,7 +49,7 @@ namespace RaceTo21Interface
          */
         public string GetPlayerName(int playerNum)
         {
-            Console.Write("What is the name of player# " + playerNum + "? ");
+            //Console.Write("What is the name of player# " + playerNum + "? ");
             string response = Console.ReadLine();
             while (response.Length < 1)
             {

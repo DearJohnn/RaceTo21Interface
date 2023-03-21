@@ -1,10 +1,113 @@
 ﻿@page "/GetNumberOfPlayer"
+<style>
+    .container {
+        padding-top: 25%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
 <div class="container">
-    <h3>GetNumberOfPlayer</h3>
+    @switch (Game.nextTask)
+    {
+        case PlayTask.GetNumberOfPlayers:
+            <h2 class="text-center mt-4">How many players?</h2>
+            <div class="row mt-2">
+                <input type="text" placeholder="Enter Number (2-8)"
+                       @onchange="UpdateNumberOfPlayer" />
+            </div>
+            <div class="row mt-5">
+                <button type="button" class="btn btn-primary"
+                        @onclick="SetNumberOfPlayer">
+                    Next
+                </button>
+            </div>
+            <div class="row mt-5">
+                <h2 style="color: red;">
+                    <strong>@DisplayAlart</strong>
+                </h2>
+            </div>
+            break;
+
+        case PlayTask.GetNames:
+
+            <h2 class="text-center mt-4 mb-4">Player Names</h2>
+            @for (var i = 0; i < Game.numberOfPlayers; i++)
+            {
+                int playerIndex = i;
+                <div class="row mt-2">
+                    <div class="col-sm-4">
+                        <label for="playerInput@(playerIndex)">Player @(playerIndex + 1)</label>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" placeholder="Enter Player@(playerIndex + 1)'s Name"
+                               @bind-value="names[playerIndex]" />
+                    </div>
+                </div>
+            }
+
+            <div class="row mt-5">
+                <button type="button" class="btn btn-primary"
+                        @onclick="SetNameOfPlayer">
+                    Play
+                </button>
+            </div>
+
+            break;
+    }
+
 </div>
 
 @inject NavigationManager NavigationManager
 
 @code {
+    private string DisplayAlart = "";
+    int players;
+    public static string[] names;
 
+    private void UpdateNumberOfPlayer(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int result) == false
+                || result < 2 || result > 8)
+        {
+            //DisplayValue = e.Value.ToString();
+            DisplayAlart = "Invalid number of players.";
+        }
+        else
+        {
+            DisplayAlart = "";
+            players = result;
+        }
+
+    }
+
+
+    private void SetNumberOfPlayer()
+    {
+        if(players > 1 && players < 9)
+        {
+            DisplayAlart = "";
+            CardTable.numberOfPlayers = players;
+            Game.DoNextTask();
+            names = new string[players];
+        }
+        else
+        {
+            DisplayAlart = "Please enter the number of players.";
+        }
+
+    }
+
+    private void SetNameOfPlayer()
+    {
+
+            for (var i = 0; i < Game.numberOfPlayers; i++)
+            {
+                Game.AddPlayer(names[i]);
+            }
+            Game.DoNextTask();
+            NavigationManager.NavigateTo("/Bet");
+
+    }
 }

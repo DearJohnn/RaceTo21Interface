@@ -91,32 +91,19 @@ using RaceTo21Interface.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 32 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Index.razor"
+#line 23 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Index.razor"
  
-    private string DisplayAlart = "";
-    int players;
+    public static CardTable cardTable = new CardTable();
 
-    private void UpdateNumberOfPlayer(ChangeEventArgs e)
+    public static void SetUpGame()
     {
-        if (int.TryParse(e.Value.ToString(), out int result) == false
-                || result < 2 || result > 8)
-        {
-            //DisplayValue = e.Value.ToString();
-            DisplayAlart = "Invalid number of players.";
-        }
-        else
-        {
-            DisplayAlart = "";
-            players = result;
-        }
-
+        Game game = new Game(cardTable);
+        Game.players = new List<Player>();
     }
 
     void SetNumberOfPlayer()
     {
-        CardTable.numberOfPlayers = players;
         NavigationManager.NavigateTo("/GetNumberOfPlayer");
-        Game.DoNextTask();
     }
 
 #line default
