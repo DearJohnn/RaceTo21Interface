@@ -12,7 +12,10 @@ namespace RaceTo21Interface
         static int currentPlayer = 0;
         public static PlayTask nextTask;
         private static bool cheating = false;
-        static int pot = 0;
+        public static int pot = 0;
+        public static int[] bets;
+        public static int defaultValueOfBet = 1;
+        public static int change = 0;
 
 
         public Game(CardTable c)
@@ -61,7 +64,7 @@ namespace RaceTo21Interface
             else if(nextTask == PlayTask.Bet)
             { 
                 // Players bet in this task one by one
-                for (var count = 1; count <= numberOfPlayers; count++)
+                /*for (var count = 1; count <= numberOfPlayers; count++)
                 {
                     Player player = players[currentPlayer];
                     int bet = cardTable.BetChips(player);
@@ -72,12 +75,12 @@ namespace RaceTo21Interface
 
                 }
                 Console.WriteLine("There are " + pot + " bets in pot this round.");
-                currentPlayer = 0;
+                currentPlayer = 0;*/
                 nextTask = PlayTask.PlayerTurn;
             }
             else if (nextTask == PlayTask.PlayerTurn)
             {
-                cardTable.ShowHands(players);
+                //cardTable.ShowHands(players);
                 Player player = players[currentPlayer];
                 if (player.status == PlayerStatus.active)
                 {
@@ -310,21 +313,18 @@ namespace RaceTo21Interface
             return null; // everyone must have busted because nobody won!
         }
 
-        public static void UpdateBet()
+        public static void UpdateChip(int playerIndex,int change)
+        {
+            players[playerIndex].setChip(players[playerIndex].chip + change);
+        }
+
+        public static void UpdatePot()
         {
             pot = 0;
-            for (var count = 1; count <= numberOfPlayers; count++)
+            for (int i = 0; i < bets.Length; i++)
             {
-                Player player = players[currentPlayer];
-                int bet = cardTable.BetChips(player);
-                player.setChip(player.chip - bet);
-                cardTable.ShowChips(player);
-                currentPlayer++;
-                pot += bet;// Calculate pot
-
+                pot += bets[i];
             }
-            //Console.WriteLine("There are " + pot + " bets in pot this round.");
-            currentPlayer = 0;
         }
     }
 }

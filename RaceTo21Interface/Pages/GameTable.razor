@@ -1,0 +1,34 @@
+﻿@page "/GameTable"
+    <style>
+        body {
+            font-family: 'Lilita One', cursive;
+        }
+
+        .container {
+            width: 50%;
+            padding-top: 10%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+    <div class="container">
+        <h2 class="text-center mt-2">Total Amount in Pot: $@(Game.pot)</h2>
+        <div class="row mt-4" style="width: 100%">
+            @for (int i = 0; i < Game.players.Count; i++)
+            {
+
+            }
+        </div>
+    </div>
+
+        @inject NavigationManager NavigationManager
+
+        @code {
+
+        }

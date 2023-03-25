@@ -132,10 +132,15 @@ using RaceTo21Interface.Shared;
 
     private void SetNameOfPlayer()
     {
+        Game.bets = new int[players];
 
-        for (var i = 0; i < Game.numberOfPlayers; i++)
+        for (int i = 0; i < Game.numberOfPlayers; i++)
         {
             Game.AddPlayer(names[i]);
+            Game.bets[i] = Game.defaultValueOfBet;
+            Game.change = - Game.defaultValueOfBet;
+            Game.UpdateChip(i, Game.change);
+            Game.UpdatePot();
         }
         Game.DoNextTask();
         NavigationManager.NavigateTo("/Bet");

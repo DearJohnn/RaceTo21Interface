@@ -53,7 +53,7 @@ namespace RaceTo21Interface
                     cards.Add(new Card(cardID, cardLongName + " of " + cardSuit));
                     imagesDictionary.Add(cardID, imageID);
                     
-                    //Console.WriteLine( $"{imagesDictionary[cardID]}");
+                    Console.WriteLine( $"{imagesDictionary[cardID]}");
                 }
             }
         }

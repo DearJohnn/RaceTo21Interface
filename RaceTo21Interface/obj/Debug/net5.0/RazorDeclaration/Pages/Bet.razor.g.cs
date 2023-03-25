@@ -93,24 +93,23 @@ using RaceTo21Interface.Shared;
 #nullable restore
 #line 83 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Bet.razor"
            
-        public static int[] bets = new int[Game.players.Count];
-
-
-        int pot = 0;
+        private string DisplayAlart = "";
 
         private void UpdateBet(ChangeEventArgs e, int playerIndex)
         {
-            pot = 0;
             int bet = int.Parse(e.Value.ToString());
             Player player = Game.players[playerIndex];
+            Game.change = Game.bets[playerIndex] - bet;
+            Game.bets[playerIndex] = bet;
+            Game.UpdateChip(playerIndex,Game.change);
+            Game.UpdatePot();
 
-            bets[playerIndex] = bet;
+        }
 
-            for (int i = 0; i < bets.Length; i++)
-            {
-                pot += bets[i];
-            }
-
+        private void Play()
+        {
+            Game.DoNextTask();
+            NavigationManager.NavigateTo("/GameTable");
         }
     
 
