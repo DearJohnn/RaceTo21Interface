@@ -91,15 +91,28 @@ using RaceTo21Interface.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 40 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Bet.razor"
-       
+#line 83 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Bet.razor"
+           
+        public static int[] bets = new int[Game.players.Count];
 
-    string currentValue = "";
 
-    private void UpdateValue(ChangeEventArgs e)
-    {
-        currentValue = e.Value.ToString();
-    }
+        int pot = 0;
+
+        private void UpdateBet(ChangeEventArgs e, int playerIndex)
+        {
+            pot = 0;
+            int bet = int.Parse(e.Value.ToString());
+            Player player = Game.players[playerIndex];
+
+            bets[playerIndex] = bet;
+
+            for (int i = 0; i < bets.Length; i++)
+            {
+                pot += bets[i];
+            }
+
+        }
+    
 
 #line default
 #line hidden

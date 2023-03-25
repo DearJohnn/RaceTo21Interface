@@ -91,7 +91,7 @@ using RaceTo21Interface.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 23 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Index.razor"
+#line 33 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Index.razor"
  
     public static CardTable cardTable = new CardTable();
 

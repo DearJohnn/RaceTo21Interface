@@ -91,7 +91,7 @@ using RaceTo21Interface.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 64 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\GetNumberOfPlayer.razor"
+#line 74 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\GetNumberOfPlayer.razor"
        
     private string DisplayAlart = "";
     int players;
@@ -116,7 +116,7 @@ using RaceTo21Interface.Shared;
 
     private void SetNumberOfPlayer()
     {
-        if(players > 1 && players < 9)
+        if (players > 1 && players < 9)
         {
             DisplayAlart = "";
             CardTable.numberOfPlayers = players;
@@ -133,12 +133,12 @@ using RaceTo21Interface.Shared;
     private void SetNameOfPlayer()
     {
 
-            for (var i = 0; i < Game.numberOfPlayers; i++)
-            {
-                Game.AddPlayer(names[i]);
-            }
-            Game.DoNextTask();
-            NavigationManager.NavigateTo("/Bet");
+        for (var i = 0; i < Game.numberOfPlayers; i++)
+        {
+            Game.AddPlayer(names[i]);
+        }
+        Game.DoNextTask();
+        NavigationManager.NavigateTo("/Bet");
 
     }
 

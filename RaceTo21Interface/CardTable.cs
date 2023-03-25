@@ -6,6 +6,7 @@ namespace RaceTo21Interface
     public class CardTable
     {
         public static int numberOfPlayers;
+        public static int betRound;
         public CardTable()
         {
             Console.WriteLine("Setting Up Table...");
@@ -93,17 +94,17 @@ namespace RaceTo21Interface
          */
         public int BetChips(Player player)
         {
-            Console.Write("How many chips does " + player.name + " want to bet this round? (1 - " + player.chip + ")");
+            /*Console.Write("How many chips does " + player.name + " want to bet this round? (1 - " + player.chip + ")");
             int bet;
             string response = null;
-            //response = Console.ReadLine();
+            response = Console.ReadLine();
             while (int.TryParse(response, out bet) == false || bet < 1 || bet > player.chip)
             {
                 Console.WriteLine("Invalid number of chips.");
                 Console.Write("How many chips does " + player.name + " want to bet this round? (1 - " + player.chip + ")");
-                //response = Console.ReadLine();
-            }
-            return bet;
+                response = Console.ReadLine();
+            }*/
+            return betRound;
         }
 
         /*Show all of the card in player's hand one by one and show player's total score

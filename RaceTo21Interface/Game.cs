@@ -309,5 +309,22 @@ namespace RaceTo21Interface
             }
             return null; // everyone must have busted because nobody won!
         }
+
+        public static void UpdateBet()
+        {
+            pot = 0;
+            for (var count = 1; count <= numberOfPlayers; count++)
+            {
+                Player player = players[currentPlayer];
+                int bet = cardTable.BetChips(player);
+                player.setChip(player.chip - bet);
+                cardTable.ShowChips(player);
+                currentPlayer++;
+                pot += bet;// Calculate pot
+
+            }
+            //Console.WriteLine("There are " + pot + " bets in pot this round.");
+            currentPlayer = 0;
+        }
     }
 }

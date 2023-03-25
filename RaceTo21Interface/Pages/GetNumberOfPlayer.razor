@@ -1,18 +1,26 @@
 ﻿@page "/GetNumberOfPlayer"
 <style>
+    body {
+        font-family: 'Lilita One', cursive;
+    }
+
     .container {
-        padding-top: 25%;
+        padding-top: 20%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+
 <div class="container">
     @switch (Game.nextTask)
     {
         case PlayTask.GetNumberOfPlayers:
-            <h2 class="text-center mt-4">How many players?</h2>
+            <h2 class="text-center mt-1">How many players?</h2>
             <div class="row mt-2">
                 <input type="text" placeholder="Enter Number (2-8)"
                        @onchange="UpdateNumberOfPlayer" />
@@ -32,7 +40,7 @@
 
         case PlayTask.GetNames:
 
-            <h2 class="text-center mt-4 mb-4">Player Names</h2>
+            <h2 class="text-center mt-1 mb-4">Player Names</h2>
             @for (var i = 0; i < Game.numberOfPlayers; i++)
             {
                 int playerIndex = i;
@@ -58,6 +66,8 @@
     }
 
 </div>
+
+
 
 @inject NavigationManager NavigationManager
 
@@ -85,7 +95,7 @@
 
     private void SetNumberOfPlayer()
     {
-        if(players > 1 && players < 9)
+        if (players > 1 && players < 9)
         {
             DisplayAlart = "";
             CardTable.numberOfPlayers = players;
@@ -102,12 +112,12 @@
     private void SetNameOfPlayer()
     {
 
-            for (var i = 0; i < Game.numberOfPlayers; i++)
-            {
-                Game.AddPlayer(names[i]);
-            }
-            Game.DoNextTask();
-            NavigationManager.NavigateTo("/Bet");
+        for (var i = 0; i < Game.numberOfPlayers; i++)
+        {
+            Game.AddPlayer(names[i]);
+        }
+        Game.DoNextTask();
+        NavigationManager.NavigateTo("/Bet");
 
     }
 }
