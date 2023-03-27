@@ -91,7 +91,7 @@ using RaceTo21Interface.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 83 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Bet.razor"
+#line 62 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Bet.razor"
            
         private string DisplayAlart = "";
 

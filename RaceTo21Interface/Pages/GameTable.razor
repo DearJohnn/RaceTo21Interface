@@ -5,12 +5,15 @@
         }
 
         .container {
-            width: 50%;
+            width: 80%;
             padding-top: 10%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+        }
+        .pokercard-img-many {
+            margin-right: -1.75rem;
         }
     </style>
 
@@ -22,10 +25,39 @@
         <div class="row mt-4" style="width: 100%">
             @for (int i = 0; i < Game.players.Count; i++)
             {
+                int playerIndex = i;
+                Player player = Game.players[playerIndex];
+            <div class="col-12">
+                <div class="row alert alert-secondary align-items-center py-4 px-0">
+                    <div class="col-sm-auto text-sm-center" style="width:30%">
+                        <h4><strong>@player.name</strong></h4>
+                        <h5>Chips: @player.chip</h5>
+                    </div>
+                    <div class="col">
+                        <h4><strong>@player.score</strong></h4>
+                    </div>
+                    <div class="col-sm-5" style="width:70%">
+                        <div class="row align-items-center">
+                            @foreach (Card card in player.cards)
+                            {
+                                <img class="pokercard-img @(player.cards.Count > 3 ? "pokercard-img-many" : "")" src="./CardAssets/@Game.deck.imagesDictionary[card.id]" />}
+                        </div>
 
+                    </div>
+                    <div class="col-sm-auto text-sm-center">
+                        @if(playerIndex == Game.currentPlayer)
+                         {
+                            if(player.status == PlayerStatus.active)
+                            {
+                                <button type="button" class="btn btn-dark btn-left" @onclick="() => { Game.DrawCard(player); }">Deal</button>
+                            }
+                         }
+                    </div>
+                </div>
+            </div>
             }
-        </div>
-    </div>
+                </div>
+            </div>
 
         @inject NavigationManager NavigationManager
 

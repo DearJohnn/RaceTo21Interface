@@ -8,8 +8,8 @@ namespace RaceTo21Interface
         public static int numberOfPlayers;
         public static List<Player> players = new List<Player>();
         static CardTable cardTable;
-        static Deck deck = new Deck();
-        static int currentPlayer = 0;
+        public static Deck deck = new Deck();
+        public static int currentPlayer = 0;
         public static PlayTask nextTask;
         private static bool cheating = false;
         public static int pot = 0;
@@ -324,6 +324,22 @@ namespace RaceTo21Interface
             for (int i = 0; i < bets.Length; i++)
             {
                 pot += bets[i];
+            }
+        }
+
+        public static void DrawCard(Player player)
+        {
+            Card card = deck.DealTopCard();
+            player.cards.Add(card);
+            player.setScore(ScoreHand(player));
+            if (player.score > 21)
+            {
+                player.setStatus(PlayerStatus.bust);
+            }
+            else if (player.score == 21)
+            {
+                player.setStatus(PlayerStatus.win);
+
             }
         }
     }

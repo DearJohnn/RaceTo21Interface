@@ -8,7 +8,7 @@ namespace RaceTo21Interface
     {
         List<Card> cards = new List<Card>();
         // Create a Dictionary to store two string type date, one is card image file name another is card id 
-        public static Dictionary<string, string> imagesDictionary = new Dictionary<string, string>();
+        public Dictionary<string, string> imagesDictionary = new Dictionary<string, string>();
         public Deck()
         {
             Console.WriteLine("*********** Building deck...");
@@ -48,7 +48,7 @@ namespace RaceTo21Interface
                             break;
                     }
                     // Generate card image file name
-                    imageID = "card_" + cardSuit + "_" + cardName + ".png";
+                    imageID = "card_" + cardSuit.ToLower() + "_" + cardName + ".png";
                     cardID = cardName + cardSuit.First<char>();
                     cards.Add(new Card(cardID, cardLongName + " of " + cardSuit));
                     imagesDictionary.Add(cardID, imageID);
