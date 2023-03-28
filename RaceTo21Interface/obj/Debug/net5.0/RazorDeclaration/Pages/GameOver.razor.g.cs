@@ -82,38 +82,14 @@ using RaceTo21Interface.Shared;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/GameTable")]
-    public partial class GameTable : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/GameOver")]
+    public partial class GameOver : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 246 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\GameTable.razor"
-               
-
-            private string button;
-
-            private void Next()
-            {
-                Game.DoNextTask();
-                if (!Game.CheckGameOver())
-                {
-                    NavigationManager.NavigateTo("/Bet");
-
-                }
-                else
-                {
-                    NavigationManager.NavigateTo("/GameOver");
-                }
-            }
-        
-
-#line default
-#line hidden
-#nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }
 }

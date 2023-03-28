@@ -16,6 +16,8 @@ namespace RaceTo21Interface
         public static int[] bets;
         public static int defaultValueOfBet = 1;
         public static int change = 0;
+        public static Player roundWinner;
+        public static Player fianlWinner;
 
 
         public Game(CardTable c)
@@ -62,26 +64,33 @@ namespace RaceTo21Interface
                 nextTask = PlayTask.Bet;
             }*/
             else if(nextTask == PlayTask.Bet)
-            { 
-                // Players bet in this task one by one
-                /*for (var count = 1; count <= numberOfPlayers; count++)
+            {
+                currentPlayer = 0;
+                foreach (var player in players)
                 {
-                    Player player = players[currentPlayer];
-                    int bet = cardTable.BetChips(player);
-                    player.setChip(player.chip - bet);
-                    cardTable.ShowChips(player);
-                    currentPlayer++;
-                    pot += bet;// Calculate pot
-
+                    player.setScore(0);
+                    player.setStatus(PlayerStatus.active);
+                    player.cards = new List<Card>();
                 }
-                Console.WriteLine("There are " + pot + " bets in pot this round.");
-                currentPlayer = 0;*/
-                nextTask = PlayTask.PlayerTurn;
+                    // Players bet in this task one by one
+                    /*for (var count = 1; count <= numberOfPlayers; count++)
+                    {
+                        Player player = players[currentPlayer];
+                        int bet = cardTable.BetChips(player);
+                        player.setChip(player.chip - bet);
+                        cardTable.ShowChips(player);
+                        currentPlayer++;
+                        pot += bet;// Calculate pot
+
+                    }
+                    Console.WriteLine("There are " + pot + " bets in pot this round.");
+                    currentPlayer = 0;*/
+                    nextTask = PlayTask.PlayerTurn;
             }
             else if (nextTask == PlayTask.PlayerTurn)
             {
                 //cardTable.ShowHands(players);
-                Player player = players[currentPlayer];
+                /*Player player = players[currentPlayer];
                 if (player.status == PlayerStatus.active)
                 {
                     if (cardTable.OfferACard(player))
@@ -104,38 +113,13 @@ namespace RaceTo21Interface
                         player.setStatus(PlayerStatus.stay);
                     }
                 }
-                cardTable.ShowHand(player);
-                nextTask = PlayTask.CheckForEnd;
-            }
-            else if (nextTask == PlayTask.CheckForEnd)
-            {
+                cardTable.ShowHand(player);*/
                 if (CheckRoundWinner() || !CheckActivePlayers())
                 {
-                    currentPlayer = 0;
-                    Player roundWinner = DoFinalScoring();
-                    cardTable.AnnounceRoundWinner(roundWinner, pot);//Show the round winner
-                    pot = 0;//reset pot
-                    //Check if any player has won 80% of the total chips or if any player has no chips left(This is the new game end condition)
-                    if (!CheckGameOver())
-                    {
-                        //If the game is not over, the remaining chips of all players will be displayed and a new round will be started
-                        for (var count = 1; count <= numberOfPlayers; count++)
-                        {
-                            Player player = players[currentPlayer];
-                            cardTable.ShowChips(player);
-                            currentPlayer++;
-                        }
-                        currentPlayer = 0;
-                        Console.WriteLine("New Round");
-                        nextTask = PlayTask.Bet;
-                    }
-                    else
-                    {
-                        //If the game is over, find out who is the winner
-                        Player winner = FindFinalWinnner();
-                        cardTable.AnnounceWinner(winner);
-                        nextTask = PlayTask.GameOver;
-                    }
+                    //currentPlayer = 0;
+                    roundWinner = DoFinalScoring();
+                    cardTable.AnnounceRoundWinner(roundWinner, pot);
+                    nextTask = PlayTask.CheckForEnd;
                 }
                 else
                 {
@@ -144,8 +128,50 @@ namespace RaceTo21Interface
                     {
                         currentPlayer = 0; // back to the first player...
                     }
+                    while(players[currentPlayer].status == PlayerStatus.stay || players[currentPlayer].status == PlayerStatus.bust)
+                    {
+                        currentPlayer++;
+                        if (currentPlayer > players.Count - 1)
+                        {
+                            currentPlayer = 0;
+                        }
+                    }
                     nextTask = PlayTask.PlayerTurn;
                 }
+                //nextTask = PlayTask.CheckForEnd;
+            }
+            else if (nextTask == PlayTask.CheckForEnd)
+            {
+                //Check if any player has won 80% of the total chips or if any player has no chips left(This is the new game end condition)
+                if (!CheckGameOver())
+                {
+                    //If the game is not over, the remaining chips of all players will be displayed and a new round will be started
+                  
+                    Console.WriteLine("New Round");
+                    nextTask = PlayTask.Bet;
+                }
+                else
+                {
+
+                    nextTask = PlayTask.GameOver;
+                }
+                pot = 0;
+                change = -defaultValueOfBet;
+                for(int i = 0; i< bets.Length; i++)
+                {
+                    bets[i] = defaultValueOfBet;
+                    UpdateChip(i, change);
+                }
+                UpdatePot();
+
+
+            }
+            else if(nextTask == PlayTask.GameOver)
+            {
+                //If the game is over, find out who is the winner
+
+                    fianlWinner = FindFinalWinnner();
+                    Console.WriteLine(fianlWinner.name);
             }
             else // we shouldn't get here...
             {
@@ -252,14 +278,13 @@ namespace RaceTo21Interface
             {
                 if(player.chip >= ((100 * numberOfPlayers) * 0.8) || player.chip == 0)
                 {
-                    player.setStatus(PlayerStatus.winner);
                     return true;
                 }
-                else
+                /*else
                 {
                     player.setStatus(PlayerStatus.active);
                     player.cards = new List<Card>();
-                }
+                }*/
             }
             return false;
         }
@@ -271,14 +296,17 @@ namespace RaceTo21Interface
         */
         public static Player FindFinalWinnner()
         {
+            int highestChip = 0;
             foreach (var player in players)
             {
-                if(player.status == PlayerStatus.winner)
+                if(player.chip > highestChip)
                 {
-                    return player;
+                    highestChip = player.chip;
                 }
             }
-            return null;
+            fianlWinner = players.Find(player => player.chip == highestChip);
+            fianlWinner.setStatus(PlayerStatus.winner);
+            return fianlWinner;
         }
 
         /*Find out who is the winner of the current round based on the player state or score
@@ -294,7 +322,8 @@ namespace RaceTo21Interface
                 cardTable.ShowHand(player);
                 if (player.status == PlayerStatus.win) // someone hit 21
                 {
-                    return player;
+                    roundWinner = player;
+                    return roundWinner;
                 }
                 if (player.status == PlayerStatus.stay || player.status == PlayerStatus.active) // if all bust but one, the remaining player also can win
                 {
@@ -308,7 +337,9 @@ namespace RaceTo21Interface
             if (highScore > 0) // someone scored, anyway!
             {
                 // find the FIRST player in list who meets win condition
-                return players.Find(player => player.score == highScore);
+                roundWinner = players.Find(player => player.score == highScore);
+                roundWinner.setStatus(PlayerStatus.win);
+                return roundWinner;
             }
             return null; // everyone must have busted because nobody won!
         }
@@ -341,6 +372,12 @@ namespace RaceTo21Interface
                 player.setStatus(PlayerStatus.win);
 
             }
+        }
+
+        public static void Stay(Player player)
+        {
+            player.setStatus(PlayerStatus.stay);
+
         }
     }
 }

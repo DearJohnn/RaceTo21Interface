@@ -1,0 +1,32 @@
+﻿@page "/GameOver"
+<style>
+    body {
+        font-family: 'Lilita One', cursive;
+    }
+
+    .container {
+        width: 50%;
+        padding-top: 10%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+
+<div class="container">
+    <h1>GAME OVER</h1>
+    <div class="row m-4">
+        <h2>@(Game.fianlWinner.name) is the winner!</h2>
+    </div>
+</div>
+
+@inject NavigationManager NavigationManager
+
+@code {
+
+}

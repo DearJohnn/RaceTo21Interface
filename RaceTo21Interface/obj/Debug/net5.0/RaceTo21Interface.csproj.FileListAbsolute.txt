@@ -632,3 +632,5 @@ D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\obj\Debug\net5.0\R
 D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\obj\Debug\net5.0\Razor\Pages\Bet.razor.g.cs
 D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\obj\Debug\net5.0\RazorDeclaration\Pages\GameTable.razor.g.cs
 D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\obj\Debug\net5.0\Razor\Pages\GameTable.razor.g.cs
+D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\obj\Debug\net5.0\RazorDeclaration\Pages\GameOver.razor.g.cs
+D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\obj\Debug\net5.0\Razor\Pages\GameOver.razor.g.cs
