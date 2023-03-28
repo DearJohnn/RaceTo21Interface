@@ -170,7 +170,7 @@ namespace RaceTo21Interface
             {
                 //If the game is over, find out who is the winner
 
-                    fianlWinner = FindFinalWinnner();
+                    FindFinalWinnner();
                     Console.WriteLine(fianlWinner.name);
             }
             else // we shouldn't get here...
