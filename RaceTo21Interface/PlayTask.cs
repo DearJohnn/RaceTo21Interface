@@ -5,7 +5,6 @@ namespace RaceTo21Interface
     {
         GetNumberOfPlayers,
         GetNames,
-        IntroducePlayers,
         Bet,//Add a new task to let player to bet
         PlayerTurn,
         CheckForEnd,

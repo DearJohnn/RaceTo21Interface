@@ -91,19 +91,22 @@ using RaceTo21Interface.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 74 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\GetNumberOfPlayer.razor"
+#line 85 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\GetNumberOfPlayer.razor"
        
     private string DisplayAlart = "";
     int players;
-    public static string[] names;
 
+    /*Check whether the input is valid, if it is, it will be saved, if it is not, alart will be displayed
+    *Is called by input box
+    *Has one parameter which is the iinput
+    *No return
+    */
     private void UpdateNumberOfPlayer(ChangeEventArgs e)
     {
         if (int.TryParse(e.Value.ToString(), out int result) == false
                 || result < 2 || result > 8)
         {
-            //DisplayValue = e.Value.ToString();
-            DisplayAlart = "Invalid number of players.";
+            DisplayAlart = "Please enter a valid number of players.";
         }
         else
         {
@@ -113,38 +116,85 @@ using RaceTo21Interface.Shared;
 
     }
 
-
+    /*Create a match for the number of players and let the Game class perform the next task
+    *Is called by button
+    *No parameter passed
+    *No return
+    */
     private void SetNumberOfPlayer()
     {
         if (players > 1 && players < 9)
         {
             DisplayAlart = "";
-            CardTable.numberOfPlayers = players;
+            Game.numberOfPlayers = players;
+            for(int i = 0; i < Game.numberOfPlayers; i++)
+            {
+                Game.AddPlayer("");
+            }
             Game.DoNextTask();
-            names = new string[players];
         }
         else
         {
-            DisplayAlart = "Please enter the number of players.";
+            DisplayAlart = "Please enter a valid number of players.";
         }
 
     }
 
+    /*Set name of the each player or show alart informatiion
+    *Is called by Play button
+    *No parameter passed
+    *No return
+    */
     private void SetNameOfPlayer()
     {
-        Game.bets = new int[players];
-
-        for (int i = 0; i < Game.numberOfPlayers; i++)
+        if(CheckName() == 1)
         {
-            Game.AddPlayer(names[i]);
-            Game.bets[i] = Game.defaultValueOfBet;
-            Game.change = - Game.defaultValueOfBet;
-            Game.UpdateChip(i, Game.change);
-            Game.UpdatePot();
+            DisplayAlart = "The name cannot be empty.";
         }
-        Game.DoNextTask();
-        NavigationManager.NavigateTo("/Bet");
+        else if(CheckName() == 2)
+        {
+            DisplayAlart = "Players cannot have the same name.";
+        }
+        else
+        {
+            DisplayAlart = "";
+            Game.bets = new int[players];
 
+            for (int i = 0; i < Game.numberOfPlayers; i++)
+            {
+                Game.bets[i] = Game.defaultValueOfBet;
+                Game.change = -Game.defaultValueOfBet;
+                Game.UpdateChip(i, Game.change);
+                Game.UpdatePot();
+            }
+            Game.DoNextTask();
+            NavigationManager.NavigateTo("/Bet");
+
+        }
+
+    }
+
+    /*Check that the player name input is valid
+    *Is called by if condition check in SetNameOfPlayer function
+    *No parameter passed
+    *Can return a int to represent different situations
+    */
+    private int CheckName()
+    {
+        foreach (Player player in Game.players)
+        {
+            if (player.name == "")
+            {
+
+                return 1;
+            }
+            else if (Game.players.FindAll(p => p.name == player.name).Count > 1)
+            {
+
+                return 2;
+            }
+        }
+        return 0;
     }
 
 #line default

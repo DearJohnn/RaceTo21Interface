@@ -17,7 +17,7 @@ namespace RaceTo21Interface
         public static int defaultValueOfBet = 1;
         public static int change = 0;
         public static Player roundWinner;
-        public static Player fianlWinner;
+        public static Player finalWinner;
 
 
         public Game(CardTable c)
@@ -43,26 +43,14 @@ namespace RaceTo21Interface
          */
         public static void DoNextTask()
         {
-            Console.WriteLine("================================"); // this line should be elsewhere right?
             if (nextTask == PlayTask.GetNumberOfPlayers)
             {
-                numberOfPlayers = cardTable.GetNumberOfPlayers();
                 nextTask = PlayTask.GetNames;
             }
             else if (nextTask == PlayTask.GetNames)
             {
-                /*for (var count = 1; count <= numberOfPlayers; count++)
-                {
-                    var name = cardTable.GetPlayerName(count);
-                    AddPlayer(name); // NOTE: player list will start from 0 index even though we use 1 for our count here to make the player numbering more human-friendly
-                }*/
                 nextTask = PlayTask.Bet;
             }
-            /*else if (nextTask == PlayTask.IntroducePlayers)
-            {
-                cardTable.ShowPlayers(players);
-                nextTask = PlayTask.Bet;
-            }*/
             else if(nextTask == PlayTask.Bet)
             {
                 currentPlayer = 0;
@@ -72,51 +60,12 @@ namespace RaceTo21Interface
                     player.setStatus(PlayerStatus.active);
                     player.cards = new List<Card>();
                 }
-                    // Players bet in this task one by one
-                    /*for (var count = 1; count <= numberOfPlayers; count++)
-                    {
-                        Player player = players[currentPlayer];
-                        int bet = cardTable.BetChips(player);
-                        player.setChip(player.chip - bet);
-                        cardTable.ShowChips(player);
-                        currentPlayer++;
-                        pot += bet;// Calculate pot
-
-                    }
-                    Console.WriteLine("There are " + pot + " bets in pot this round.");
-                    currentPlayer = 0;*/
-                    nextTask = PlayTask.PlayerTurn;
+                nextTask = PlayTask.PlayerTurn;
             }
             else if (nextTask == PlayTask.PlayerTurn)
             {
-                //cardTable.ShowHands(players);
-                /*Player player = players[currentPlayer];
-                if (player.status == PlayerStatus.active)
-                {
-                    if (cardTable.OfferACard(player))
-                    {
-                        Card card = deck.DealTopCard();
-                        player.cards.Add(card);
-                        player.setScore(ScoreHand(player));
-                        if (player.score > 21)
-                        {
-                            player.setStatus(PlayerStatus.bust);
-                        }
-                        else if (player.score == 21)
-                        {
-                            player.setStatus(PlayerStatus.win);
-
-                        }
-                    }
-                    else
-                    {
-                        player.setStatus(PlayerStatus.stay);
-                    }
-                }
-                cardTable.ShowHand(player);*/
                 if (CheckRoundWinner() || !CheckActivePlayers())
                 {
-                    //currentPlayer = 0;
                     roundWinner = DoFinalScoring();
                     cardTable.AnnounceRoundWinner(roundWinner, pot);
                     nextTask = PlayTask.CheckForEnd;
@@ -138,7 +87,6 @@ namespace RaceTo21Interface
                     }
                     nextTask = PlayTask.PlayerTurn;
                 }
-                //nextTask = PlayTask.CheckForEnd;
             }
             else if (nextTask == PlayTask.CheckForEnd)
             {
@@ -146,40 +94,34 @@ namespace RaceTo21Interface
                 if (!CheckGameOver())
                 {
                     //If the game is not over, the remaining chips of all players will be displayed and a new round will be started
-                  
-                    Console.WriteLine("New Round");
+                    pot = 0;
+                    change = -defaultValueOfBet;
+                    for (int i = 0; i < bets.Length; i++)
+                    {
+                        bets[i] = defaultValueOfBet;
+                        UpdateChip(i, change);
+                    }
+                    UpdatePot();
                     nextTask = PlayTask.Bet;
                 }
                 else
                 {
-
                     nextTask = PlayTask.GameOver;
-                }
-                pot = 0;
-                change = -defaultValueOfBet;
-                for(int i = 0; i< bets.Length; i++)
-                {
-                    bets[i] = defaultValueOfBet;
-                    UpdateChip(i, change);
-                }
-                UpdatePot();
-
-
+                }                
             }
             else if(nextTask == PlayTask.GameOver)
             {
                 //If the game is over, find out who is the winner
-
-                    FindFinalWinnner();
-                    Console.WriteLine(fianlWinner.name);
+                finalWinner = FindFinalWinnner();
             }
-            else // we shouldn't get here...
+            else
             {
                 Console.WriteLine("I'm sorry, I don't know what to do now!");
                 nextTask = PlayTask.GameOver;
             }
         }
-        /*Calculate the total score of the player's hand
+        
+        /* Calculate the total score of the player's hand
          * Is called by DoNextTask function playerTurn task
          * DoNextTask function provides the current player object
          * Return the number of score 
@@ -220,7 +162,8 @@ namespace RaceTo21Interface
             }
             return score;
         }
-        /*Check if there is a player with the active status in all players
+        
+        /* Check if there is a player with the active status in all players
          * Is called by DoNextTask function CheckForEnd task
          * No parameter passed
          * Retuen a bool to let DoNextTask function know if have a player is active
@@ -238,7 +181,7 @@ namespace RaceTo21Interface
         }
 
 
-        /*This fuction will help the task of CheckForEnd to check corner case . When anyone get 21, win immediately. When all player bust but one , win immediately.
+        /* This fuction will help the task of CheckForEnd to check corner case . When anyone get 21, win immediately. When all player bust but one , win immediately.
          * Is called by DoNextTask function CheckForEnd task
          * No parameter passed
          * Retuen a bool to let DoNextTask function know if have a player is active
@@ -267,7 +210,8 @@ namespace RaceTo21Interface
             }
             return false; 
         }
-        /*Check if the game is over
+        
+       /* Check if the game is over
         * Is called by DoNextTask function CheckForEnd task
         * No parameter passed
         * Retuen a bool to let DoNextTask function know whether the conditions for the end of the game are met
@@ -280,16 +224,11 @@ namespace RaceTo21Interface
                 {
                     return true;
                 }
-                /*else
-                {
-                    player.setStatus(PlayerStatus.active);
-                    player.cards = new List<Card>();
-                }*/
             }
             return false;
         }
 
-        /*Find out who is the final winner
+       /* Find out who is the final winner
         * Is called by DoNextTask function CheckForEnd task
         * No parameter passed
         * Retuen Player object who is the final winner
@@ -304,13 +243,13 @@ namespace RaceTo21Interface
                     highestChip = player.chip;
                 }
             }
-            fianlWinner = players.Find(player => player.chip == highestChip);
-            fianlWinner.setStatus(PlayerStatus.winner);
-            return fianlWinner;
+            Player p =  players.Find(player => player.chip == highestChip);
+            p.setStatus(PlayerStatus.winner);
+            return p;
         }
 
-        /*Find out who is the winner of the current round based on the player state or score
-         *Is called by DoNextTask function CheckForEnd task
+        /* Find out who is the winner of the current round based on the player state or score
+         * Is called by DoNextTask function CheckForEnd task
          * No parameter passed
          * Retuen Player object who is the round winner
          */
@@ -343,12 +282,22 @@ namespace RaceTo21Interface
             }
             return null; // everyone must have busted because nobody won!
         }
-
+        
+        /* Updates the player's remaining chips based on the player's input
+         * Is called by GameTable page
+         * Pass two parameter that one is the index of the player another one is the change of the bet compare with the previous bet
+         * No return
+         */
         public static void UpdateChip(int playerIndex,int change)
         {
             players[playerIndex].setChip(players[playerIndex].chip + change);
         }
-
+        
+        /* Update the current pot based on how much the player has bet
+         * Is called by GameTable page
+         * No parameter passed 
+         * No return
+         */
         public static void UpdatePot()
         {
             pot = 0;
@@ -357,7 +306,12 @@ namespace RaceTo21Interface
                 pot += bets[i];
             }
         }
-
+        
+        /* Draw a card from the top of the deck
+         * Is called by GameTable page
+         * Pass the current player as the parameter
+         * No return
+         */
         public static void DrawCard(Player player)
         {
             Card card = deck.DealTopCard();
@@ -370,14 +324,17 @@ namespace RaceTo21Interface
             else if (player.score == 21)
             {
                 player.setStatus(PlayerStatus.win);
-
             }
         }
 
+        /* Set the player's status to stay
+         * Is called by GameTable page
+         * Pass the current player as the parameter
+         * No return
+         */
         public static void Stay(Player player)
         {
             player.setStatus(PlayerStatus.stay);
-
         }
     }
 }

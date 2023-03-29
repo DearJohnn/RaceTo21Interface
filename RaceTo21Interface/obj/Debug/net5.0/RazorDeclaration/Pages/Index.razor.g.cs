@@ -95,13 +95,22 @@ using RaceTo21Interface.Shared;
  
     public static CardTable cardTable = new CardTable();
 
-    public static void SetUpGame()
+     /*Set up the game
+     *Is called by Start button
+     *No parameter passed
+     *No return
+     */
+    private static void SetUpGame()
     {
         Game game = new Game(cardTable);
         Game.players = new List<Player>();
     }
-
-    void SetNumberOfPlayer()
+    /*Link to the GetNumberOfPlayer page
+    *Is called by Start button
+    *No parameter passed
+    *No return
+    */
+    private void SetNumberOfPlayer()
     {
         NavigationManager.NavigateTo("/GetNumberOfPlayer");
     }

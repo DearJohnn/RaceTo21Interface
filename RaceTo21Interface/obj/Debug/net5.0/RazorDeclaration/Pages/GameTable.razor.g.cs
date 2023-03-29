@@ -91,11 +91,15 @@ using RaceTo21Interface.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 246 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\GameTable.razor"
+#line 248 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\GameTable.razor"
                
 
             private string button;
-
+            /*Check if the game is over and link to the appropriate page
+            *Is called by button
+            *No parameter
+            *No return
+            */
             private void Next()
             {
                 Game.DoNextTask();
@@ -106,6 +110,7 @@ using RaceTo21Interface.Shared;
                 }
                 else
                 {
+                    Game.DoNextTask();
                     NavigationManager.NavigateTo("/GameOver");
                 }
             }

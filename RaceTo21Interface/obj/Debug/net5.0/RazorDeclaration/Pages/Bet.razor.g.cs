@@ -91,10 +91,14 @@ using RaceTo21Interface.Shared;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 62 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Bet.razor"
+#line 64 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\Bet.razor"
            
-        private string DisplayAlart = "";
 
+        /*Update the current player's bet based on input and the current player's index
+        *Is called by range input
+        *Pass two parameters, one is the input another is the current player index
+        *No return
+        */
         private void UpdateBet(ChangeEventArgs e, int playerIndex)
         {
             int bet = int.Parse(e.Value.ToString());
@@ -106,6 +110,11 @@ using RaceTo21Interface.Shared;
 
         }
 
+        /*Link to GameTable page
+        *Is called by PLay button
+        *No parameters
+        *No return
+        */
         private void Play()
         {
             Game.DoNextTask();

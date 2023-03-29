@@ -52,7 +52,7 @@
         @switch (Game.nextTask)
         {
             case PlayTask.PlayerTurn:
-
+                @*Each player begins by deciding whether to draw or stay*@
                 <h2 class="text-center mt-2">Total Amount in Pot: $@(Game.pot)</h2>
                 <div class="row mt-4" style="width: 100%">
                     @for (int i = 0; i < Game.players.Count; i++)
@@ -60,6 +60,7 @@
                         int playerIndex = i;
                         Player player = Game.players[playerIndex];
                         <div class="col-12">
+                            @*Highlight the current player*@
                             <div class="row alert alert-secondary align-items-center py-4 px-0" style="@(playerIndex == Game.currentPlayer ? "background-color: #c1e4fd" : "")">
                                 <div class="col-sm-auto text-sm-center">
                                     <h3><strong>@player.name</strong></h3>
@@ -74,6 +75,7 @@
                                     <div class="row align-items-center">
                                         @foreach (Card card in player.cards)
                                         {
+                                            @*When there are many cards, they will begin to overlap*@
                                             <img class=" @(player.cards.Count > 3 ? "cards" : "")" src="./CardAssets/@Game.deck.imagesDictionary[card.id]" />}
                                     </div>
 
@@ -95,7 +97,7 @@
                                             <div class="row status status-stay">Stay</div>
                                             Game.DoNextTask();
                                             <div class="row m-2" style="justify-content:center">
-                                                <button type="button" class="m-1 btn btn-light btn-left" disabled="true">Deal</button>
+                                                <button type="button" class="m-1 btn btn-light btn-left" disabled>Deal</button>
                                                 <button type="button" class="m-1 btn btn-dark">Stay</button>
                                             </div>
 
@@ -105,8 +107,8 @@
                                             <div class="row status status-bust">Bust</div>
                                             Game.DoNextTask();
                                             <div class="row m-2" style="justify-content:center">
-                                                <button type="button" class="m-1 btn btn-light btn-left" disabled="true">Deal</button>
-                                                <button type="button" class="m-1 btn btn-light" disabled="true">Stay</button>
+                                                <button type="button" class="m-1 btn btn-light btn-left" disabled>Deal</button>
+                                                <button type="button" class="m-1 btn btn-light" disabled>Stay</button>
                                             </div>
 
 
@@ -118,24 +120,24 @@
                                         {
                                             <div class="row status status-active">Active</div>
                                             <div class="row m-2" style="justify-content:center">
-                                                <button type="button" class="m-1 btn btn-light btn-left" disabled="true">Deal</button>
-                                                <button type="button" class="m-1 btn btn-light" disabled="true">Stay</button>
+                                                <button type="button" class="m-1 btn btn-light btn-left" disabled>Deal</button>
+                                                <button type="button" class="m-1 btn btn-light" disabled>Stay</button>
                                             </div>
                                         }
                                         else if (player.status == PlayerStatus.stay)
                                         {
                                             <div class="row status status-stay">Stay</div>
                                             <div class="row m-2" style="justify-content:center">
-                                                <button type="button" class="m-1 btn btn-light btn-left" disabled="true">Deal</button>
-                                                <button type="button" class="m-1 btn btn-dark" disabled="true">Stay</button>
+                                                <button type="button" class="m-1 btn btn-light btn-left" disabled>Deal</button>
+                                                <button type="button" class="m-1 btn btn-dark" disabled>Stay</button>
                                             </div>
                                         }
                                         else if (player.status == PlayerStatus.bust)
                                         {
                                             <div class="row status status-bust">Bust</div>
                                             <div class="row m-2" style="justify-content:center">
-                                                <button type="button" class="m-1 btn btn-light btn-left" disabled="true">Deal</button>
-                                                <button type="button" class="m-1 btn btn-light" disabled="true">Stay</button>
+                                                <button type="button" class="m-1 btn btn-light btn-left" disabled>Deal</button>
+                                                <button type="button" class="m-1 btn btn-light" disabled>Stay</button>
                                             </div>
                                         }
                                     }
@@ -148,15 +150,15 @@
 
             case PlayTask.CheckForEnd:
 
-
-               @if (!Game.CheckGameOver())
-                    {
-                        button = "Next Round";
-                    }
-                    else
-                    {
-                        button = "Game Over";
-                    }
+                @*Show the results of the current round and The button will display different content based on the result*@
+                @if (!Game.CheckGameOver())
+                {
+                    button = "Next Round";
+                }
+                else
+                {
+                    button = "Game Over";
+                }
                 <h2 class="text-center mt-2">Total Amount in Pot: $@(Game.pot)</h2>
                 <div class="row mt-4" style="width: 100%">
                     @for (int i = 0; i < Game.players.Count; i++)
@@ -187,16 +189,16 @@
                                     {
                                         <div class="row status status-win">Win</div>
                                         <div class="row m-2" style="justify-content:center">
-                                            <button type="button" class="m-1 btn btn-light btn-left" disabled="true">Deal</button>
-                                            <button type="button" class="m-1 btn btn-light" disabled="true">Stay</button>
+                                            <button type="button" class="m-1 btn btn-light btn-left" disabled>Deal</button>
+                                            <button type="button" class="m-1 btn btn-light" disabled>Stay</button>
                                         </div>
                                     }
                                     else if (player.status == PlayerStatus.stay)
                                     {
                                         <div class="row status status-stay">Stay</div>
                                         <div class="row m-2" style="justify-content:center">
-                                            <button type="button" class="m-1 btn btn-light btn-left" disabled="true">Deal</button>
-                                            <button type="button" class="m-1 btn btn-light" disabled="true">Stay</button>
+                                            <button type="button" class="m-1 btn btn-light btn-left" disabled>Deal</button>
+                                            <button type="button" class="m-1 btn btn-light" disabled>Stay</button>
                                         </div>
 
                                     }
@@ -204,8 +206,8 @@
                                     {
                                         <div class="row status status-bust">Bust</div>
                                         <div class="row m-2" style="justify-content:center">
-                                            <button type="button" class="m-1 btn btn-light btn-left" disabled="true">Deal</button>
-                                            <button type="button" class="m-1 btn btn-light" disabled="true">Stay</button>
+                                            <button type="button" class="m-1 btn btn-light btn-left" disabled>Deal</button>
+                                            <button type="button" class="m-1 btn btn-light" disabled>Stay</button>
                                         </div>
 
 
@@ -214,8 +216,8 @@
                                     {
                                         <div class="row status status-bust" style="background-color: gray">Active</div>
                                         <div class="row m-2" style="justify-content:center">
-                                            <button type="button" class="m-1 btn btn-light btn-left" disabled="true">Deal</button>
-                                            <button type="button" class="m-1 btn btn-light" disabled="true">Stay</button>
+                                            <button type="button" class="m-1 btn btn-light btn-left" disabled>Deal</button>
+                                            <button type="button" class="m-1 btn btn-light" disabled>Stay</button>
                                         </div>
 
                                     }
@@ -233,9 +235,9 @@
 
                 <h4 class="text-center"><strong>@Game.roundWinner.name</strong> wins $@(Game.pot)!</h4>
                 <div class="row justify-content-center">
-                     <button class="btn btn-primary mt-4 mb-lg-5"  @onclick="Next">@button</button>
-                    
-                 </div>
+                    <button class="btn btn-primary mt-4 mb-lg-5" @onclick="Next">@button</button>
+
+                </div>
 
                 break;
         }
@@ -246,7 +248,11 @@
         @code {
 
             private string button;
-
+            /*Check if the game is over and link to the appropriate page
+            *Is called by button
+            *No parameter
+            *No return
+            */
             private void Next()
             {
                 Game.DoNextTask();
@@ -257,6 +263,7 @@
                 }
                 else
                 {
+                    Game.DoNextTask();
                     NavigationManager.NavigateTo("/GameOver");
                 }
             }

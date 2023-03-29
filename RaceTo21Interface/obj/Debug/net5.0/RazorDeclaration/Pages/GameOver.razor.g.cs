@@ -90,6 +90,23 @@ using RaceTo21Interface.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 53 "D:\6308\C#\Week9\Homework\RaceTo21Interface\RaceTo21Interface\Pages\GameOver.razor"
+       
+    
+    /*Link to the index page
+    *Called by PLay Again button
+    *No parameters
+    *No return
+    */
+    private void PlayAgain()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+
+#line default
+#line hidden
+#nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }
 }

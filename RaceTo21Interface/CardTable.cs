@@ -5,7 +5,6 @@ namespace RaceTo21Interface
 {
     public class CardTable
     {
-        public static int numberOfPlayers;
         public static int betRound;
         public CardTable()
         {
@@ -23,24 +22,6 @@ namespace RaceTo21Interface
             {
                 players[i].Introduce(i+1); // List is 0-indexed but user-friendly player positions would start with 1...
             }
-        }
-
-        /* Gets the user input for number of players.
-         * Is called by Game object.
-         * Returns number of players to Game object.
-         */
-        public int GetNumberOfPlayers()
-        {
-            //Console.Write("How many players? ");
-            //string response = Console.ReadLine();
-            /*while (int.TryParse(response, out numberOfPlayers) == false
-                || numberOfPlayers < 2 || numberOfPlayers > 8)
-            {
-                Console.WriteLine("Invalid number of players.");
-                Console.Write("How many players?");
-                response = Console.ReadLine();
-            }*/
-            return numberOfPlayers;
         }
 
         /* Gets the name of a player
@@ -94,7 +75,7 @@ namespace RaceTo21Interface
          */
         public int BetChips(Player player)
         {
-            /*Console.Write("How many chips does " + player.name + " want to bet this round? (1 - " + player.chip + ")");
+            Console.Write("How many chips does " + player.name + " want to bet this round? (1 - " + player.chip + ")");
             int bet;
             string response = null;
             response = Console.ReadLine();
@@ -103,7 +84,7 @@ namespace RaceTo21Interface
                 Console.WriteLine("Invalid number of chips.");
                 Console.Write("How many chips does " + player.name + " want to bet this round? (1 - " + player.chip + ")");
                 response = Console.ReadLine();
-            }*/
+            }
             return betRound;
         }
 
